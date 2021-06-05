@@ -1,6 +1,8 @@
 # terraform-docker-redis - main.tf
 
-resource "random_uuid" "this" {}
+resource "random_uuid" "this" {
+  count = var.uuid == "" ? 1 : 0
+}
 
 data "docker_registry_image" "this" {
   name = "redis:${var.image_version}"
@@ -33,9 +35,10 @@ resource "docker_container" "this" {
   image = docker_image.this.latest
 
   ports {
-    internal = 6379
-    external = 6379
+    internal = var.internal_port
+    external = var.external_port
     protocol = "tcp"
+    ip       = var.ip
   }
 
   dynamic "upload" {
@@ -91,14 +94,16 @@ resource "docker_container" "this" {
 }
 
 locals {
+  uuid = var.uuid != "" ? var.uuid : random_uuid.this[0].result
+
   data_volume_name = var.create_data_volume ? (
     var.data_volume_name != "" ? var.data_volume_name : (
-      "redis_data_${random_uuid.this.result}"
+      "redis_data_${local.uuid}"
     )
   ) : ""
 
   container_name = var.container_name != "" ? var.container_name : (
-    "redis_${random_uuid.this.result}"
+    "redis_${local.uuid}"
   )
 
   config = var.upload_config ? [{

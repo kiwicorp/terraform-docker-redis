@@ -119,3 +119,36 @@ variable "db_dump_source_hash" {
   description = "Hash of the source file to be uploaded."
   default     = ""
 }
+
+variable "internal_port" {
+  type        = number
+  description = <<-DESCRIPTION
+  Redis internal port. Should be the same as the one specified in the
+  configuration.
+  DESCRIPTION
+  default     = 6379
+}
+
+variable "external_port" {
+  type        = number
+  description = <<-DESCRIPTION
+  Redis internal port. Should be the same as the one specified in the
+  configuration. Set this to 0 for automatic port allocation.
+  DESCRIPTION
+  default     = 6379
+}
+
+variable "ip" {
+  type        = string
+  description = "Ip address to bind the container port to."
+  default     = "127.0.0.1"
+}
+
+variable "uuid" {
+  type        = string
+  description = <<-DESCRIPTION
+  Uuid to use when naming the resources created by this volume. If empty, an
+  uuid will be generated instead.
+  DESCRIPTION
+  default     = ""
+}
