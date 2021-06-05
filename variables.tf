@@ -132,7 +132,7 @@ variable "internal_port" {
 variable "external_port" {
   type        = number
   description = <<-DESCRIPTION
-  Redis internal port. Should be the same as the one specified in the
+  Redis external port. Should be the same as the one specified in the
   configuration. Set this to 0 for automatic port allocation.
   DESCRIPTION
   default     = 6379
