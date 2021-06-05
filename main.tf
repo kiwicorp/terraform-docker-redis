@@ -1,8 +1,6 @@
 # terraform-docker-redis - main.tf
 
-resource "random_uuid" "this" {
-  count = var.uuid == "" ? 1 : 0
-}
+resource "random_uuid" "this" {}
 
 data "docker_registry_image" "this" {
   name = "redis:${var.image_version}"
@@ -94,7 +92,7 @@ resource "docker_container" "this" {
 }
 
 locals {
-  uuid = var.uuid != "" ? var.uuid : random_uuid.this[0].result
+  uuid = var.uuid != "" ? var.uuid : random_uuid.this.result
 
   data_volume_name = var.create_data_volume ? (
     var.data_volume_name != "" ? var.data_volume_name : (
