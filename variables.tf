@@ -107,3 +107,15 @@ variable "db_dump_file" {
   DESCRIPTION
   default     = "/data/dump.rdb"
 }
+
+variable "db_dump_source" {
+  type        = string
+  description = "Path to source file to be uploaded."
+  default     = ""
+}
+
+variable "db_dump_source_hash" {
+  type        = string
+  description = "Hash of the source file to be uploaded."
+  default     = ""
+}

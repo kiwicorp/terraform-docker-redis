@@ -48,11 +48,21 @@ resource "docker_container" "this" {
   }
 
   dynamic "upload" {
-    for_each = local.db_dump
+    for_each = local.db_dump_base64
     iterator = upload
     content {
       file           = upload.value.file
       content_base64 = upload.value.content_base64
+    }
+  }
+
+  dynamic "upload" {
+    for_each = local.db_dump_source
+    iterator = upload
+    content {
+      file        = upload.value.file
+      source      = upload.value.source
+      source_hash = upload.value.source_hash
     }
   }
 
@@ -96,8 +106,16 @@ locals {
     file    = var.config_file
   }] : []
 
-  db_dump = var.upload_db_dump ? [{
+  db_dump_base64 = var.upload_db_dump && (var.db_dump_content_base64 != "") ? [{
     content_base64 = var.db_dump_content_base64
     file           = var.db_dump_file
+  }] : []
+
+  db_dump_source = var.upload_db_dump && (var.db_dump_source != "") ? [{
+    source      = var.db_dump_source
+    source_hash = var.db_dump_source_hash != "" ? (
+      var.db_dump_source_hash
+    ) : filesha256(var.db_dump_source)
+    file        = var.db_dump_file
   }] : []
 }
