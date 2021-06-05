@@ -43,7 +43,7 @@ resource "docker_container" "this" {
     iterator = upload
     content {
       file    = upload.value.file
-      content = volume.value.content
+      content = upload.value.content
     }
   }
 
@@ -52,7 +52,7 @@ resource "docker_container" "this" {
     iterator = upload
     content {
       file           = upload.value.file
-      content_base64 = volume.value.content_base64
+      content_base64 = upload.value.content_base64
     }
   }
 
