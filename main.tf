@@ -43,7 +43,7 @@ resource "docker_container" "this" {
     for_each = local.config
     iterator = upload
     content {
-      file    = upload.value.file
+      file    = "/etc/redis.conf"
       content = upload.value.content
     }
   }
@@ -106,7 +106,6 @@ locals {
 
   config = var.upload_config ? [{
     content = var.config_content
-    file    = var.config_file
   }] : []
 
   db_dump_base64 = var.upload_db_dump && (var.db_dump_content_base64 != "") ? [{

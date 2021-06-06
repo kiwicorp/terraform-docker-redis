@@ -77,14 +77,6 @@ variable "config_content" {
   default     = ""
 }
 
-variable "config_file" {
-  type        = string
-  description = <<-DESCRIPTION
-  Path to the file in the container where the configuration will be uploaded.
-  DESCRIPTION
-  default     = "/etc/redis.conf"
-}
-
 variable "upload_db_dump" {
   type        = bool
   description = "Upload a database dump file."
